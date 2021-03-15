@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>Sorites Paradox</title>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+    crossorigin="anonymous"></script>
+    
+    <style>
+        #color-box {
+            width: 100px;
+            height: 100px;
+            border: 1px black solid;
+        }
+    </style>
+</head>
+
+<script>
+    $(function(){
+        var min_val = 0;
+        var max_val_inclusive = 255;
+        
+        function guess_val(){
+            var max_val_exclusive = max_val_inclusive + 1;
+            return min_val + ((max_val_exclusive - min_val) / 2)
+        }
+        
+        function update_state(){
+            var g_hex = guess_val().toString(16);
+            if (g_hex.length == 1){
+                g_hex = "0" + g_hex;
+            }
+            var new_color =   "#FF" + g_hex + "00";
+            
+            $("#color-box").css("background-color", new_color);
+            var num_questions_left = Math.log2(max_val_inclusive + 1 - min_val);
+            $("#num-left").text(num_questions_left);
+            if (min_val == max_val_inclusive){
+                $("#buttons,#questions-left-text").remove();
+                $("#instruction-text").text("This is the border between red and yellow:");
+            } else{
+                console.log(new_color)
+            }
+        }
+        
+        var num_guesses = 8;
+        $("#no-button").on("click", function(){
+            max_val_inclusive = guess_val() - 1;
+            update_state();
+        })
+        $("#yes-button").on("click", function(){
+            min_val = guess_val();
+            update_state();
+        })
+        
+        update_state();
+    })
+</script>
+
+<h1>Find the border</h1>
+
+<p>What is the border between red and yellow?</p>
+
+<div id="sorites-app">
+    <div id="instruction-text">Is this color red?</div>
+    <div id="questions-left-text">(<span id="num-left">8</span> questions left)</div>
+    <div id="color-box"></div>
+    <div id="buttons">
+        <button id="yes-button">Yes</button>
+        <button id="no-button">No</button>
+    </div>
+</div>
+</html>
