@@ -37,7 +37,7 @@
             $("#num-left").text(num_questions_left);
             if (min_val == max_val_inclusive){
                 $("#buttons,#questions-left-text").remove();
-                $("#instruction-text").text("This is the border between red and yellow:");
+                $("#instruction-text").text("This is the border between red and not:");
             } else{
                 console.log(new_color)
             }
@@ -59,7 +59,7 @@
 
 <h1>Find the border</h1>
 
-<p>What is the border between red and yellow?</p>
+<p>What is the border between red and "not red"?</p>
 
 <div id="sorites-app">
     <div id="instruction-text">Is this color red?</div>
